@@ -1,10 +1,25 @@
 "use client";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 
 const STORAGE_KEY = "theme";
 
 export default function useDarkMode() {
-  const [isDark, setIsDark] = useState<boolean>(false);
+  const [isDark, setIsDark] = useState<boolean>(() => {
+    try {
+      const stored =
+        typeof window !== "undefined"
+          ? localStorage.getItem(STORAGE_KEY)
+          : null;
+      if (stored === "dark") return true;
+      if (stored === "light") return false;
+      if (typeof window !== "undefined" && window.matchMedia) {
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
+    } catch (e) {
+      /* ignore */
+    }
+    return false;
+  });
 
   // Expose a toggle function synchronously so devtools can call it immediately
   try {
@@ -15,37 +30,18 @@ export default function useDarkMode() {
     /* ignore */
   }
 
-  // On mount, read stored preference or system preference and apply
-  useEffect(() => {
+  // On mount, ensure the `dark` class is applied before paint to avoid FOUC/flicker
+  useLayoutEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      // debug
-      // console.debug('[useDarkMode] mount, stored theme:', stored);
-      if (stored === "dark") {
-        setIsDark(true);
-        document.documentElement.classList.add("dark");
-        return;
-      }
-      if (stored === "light") {
-        setIsDark(false);
-        document.documentElement.classList.remove("dark");
-        return;
-      }
-
-      if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-      ) {
-        setIsDark(true);
+      if (isDark) {
         document.documentElement.classList.add("dark");
       } else {
-        setIsDark(false);
         document.documentElement.classList.remove("dark");
       }
     } catch (e) {
-      // ignore
+      /* ignore */
     }
-  }, []);
+  }, [isDark]);
 
   // Persist whenever value changes
   useEffect(() => {

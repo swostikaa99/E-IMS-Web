@@ -7,7 +7,8 @@
     /* ------------------------------
        LIGHT THEME (DEFAULT)
     ------------------------------ */
-    --background: 0 0% 98%;
+      /* subtle greenish-white for light mode */
+      --background: 150 30% 97%;
     --foreground: 220 20% 6%;
 
     --card: 0 0% 100%;
@@ -71,6 +72,17 @@
     --sidebar-accent-foreground: 220 20% 6%;
     --sidebar-border: 220 16% 95%;
     --sidebar-ring: 160 84% 45%;
+    
+    /* Navbar background for light mode (greenish-white, slightly translucent) */
+    --navbar-background: hsla(149, 64%, 89%, 0.96);
+     --footer-background: linear-gradient(
+      90deg,
+      #c6fbe1 0%,
+      #e6f7ee 100%
+    );
+
+    /* hero gradient tuned to greenish-white */
+    --gradient-hero: linear-gradient(180deg, hsl(150 30% 97%) 0%, hsl(150 22% 95%) 100%);
   }
 
   /* ------------------------------
@@ -123,6 +135,9 @@
     --shadow-glow: 0 0 60px hsl(160 84% 45% / 0.3);
     --shadow-card: 0 8px 32px hsl(0 0% 0% / 0.6);
     --shadow-card-hover: 0 12px 48px hsl(160 84% 45% / 0.2);
+
+    /* Navbar background for dark mode (keep original rgba) */
+    --navbar-background: hsla(130, 94%, 6%, 0.8);
 
     --footer-background: linear-gradient(
       90deg,
