@@ -33,9 +33,7 @@ export const Footer = () => {
   return (
     <footer
       className="border-t border-border/50 py-16"
-      style={{
-        background: "linear-gradient(90deg, #00140fff 0%, #062801ff 100%)",
-      }}
+      style={{ background: "var(--footer-background)" }}
     >
       <div className="container mx-auto px-4">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-6">

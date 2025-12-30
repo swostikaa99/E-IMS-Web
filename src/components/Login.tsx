@@ -32,6 +32,7 @@ const Login = () => {
         JSON.stringify({
           name: "Swostika Shrestha",
           email,
+          profile: {},
         })
       );
 

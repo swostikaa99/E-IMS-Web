@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
+import useDarkMode from "@/hooks/use-dark-mode";
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -10,19 +11,21 @@ const navLinks = [
   { name: "Features", href: "/features" },
   { name: "Pricing", href: "/pricing" },
   { name: "Contact", href: "/contact" },
+  { name: "Blogs", href: "/blogs" },
 ];
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+  const { isDark, toggle } = useDarkMode();
 
   return (
     <motion.nav
       initial={{ y: -20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl"
+      className="fixed top-0 left-0 right-0 z-50 border-b border-border/50 backdrop-blur-xl bg-background/80 dark:bg-background/80"
     >
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
@@ -55,6 +58,19 @@ export const Navbar = () => {
 
           {/* Desktop CTA */}
           <div className="hidden items-center gap-3 md:flex">
+            <button
+              type="button"
+              onClick={toggle}
+              aria-pressed={isDark}
+              className="inline-flex items-center justify-center rounded-md border border-border bg-input p-2 text-sm"
+              title={isDark ? "Switch to light mode" : "Switch to dark mode"}
+            >
+              {isDark ? (
+                <Sun className="h-4 w-4 text-foreground" />
+              ) : (
+                <Moon className="h-4 w-4 text-foreground" />
+              )}
+            </button>
             <Button
               variant="ghost"
               size="sm"
@@ -62,6 +78,7 @@ export const Navbar = () => {
             >
               Log in
             </Button>
+
             <Button variant="hero" size="sm" onClick={() => navigate("/trial")}>
               Start free trial
             </Button>
@@ -108,9 +125,26 @@ export const Navbar = () => {
                 <Button variant="ghost" size="sm">
                   Log in
                 </Button>
-                <Button variant="hero" size="sm">
-                  Start free trial
-                </Button>
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={toggle}
+                    aria-pressed={isDark}
+                    className="inline-flex items-center justify-center rounded-md border border-border bg-input p-2 text-sm"
+                    title={
+                      isDark ? "Switch to light mode" : "Switch to dark mode"
+                    }
+                  >
+                    {isDark ? (
+                      <Sun className="h-4 w-4 text-foreground" />
+                    ) : (
+                      <Moon className="h-4 w-4 text-foreground" />
+                    )}
+                  </button>
+                  <Button variant="hero" size="sm">
+                    Start free trial
+                  </Button>
+                </div>
               </div>
             </div>
           </motion.div>

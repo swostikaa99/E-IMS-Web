@@ -6,6 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>E-IMS | Smart E-Commerce Inventory Management</title>
+
+    <!-- Prevent flash of unthemed content: apply saved theme before app loads -->
+    <script>
+      (function () {
+        try {
+          var t = localStorage.getItem("theme");
+          if (t === "dark") document.documentElement.classList.add("dark");
+          else if (t === "light")
+            document.documentElement.classList.remove("dark");
+          // if not set, leave to CSS/media preference
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
+    <!-- Defensive: ensure a safe `user` object exists to avoid runtime errors when code reads `user.profile` -->
+    <script>
+      (function () {
+        try {
+          var raw = localStorage.getItem("user");
+          var parsed = null;
+          if (raw) {
+            try {
+              parsed = JSON.parse(raw);
+            } catch (err) {
+              parsed = null;
+            }
+          }
+          if (!parsed || typeof parsed !== "object") {
+            parsed = { profile: {} };
+            try {
+              localStorage.setItem("user", JSON.stringify(parsed));
+            } catch (e) {
+              /* ignore */
+            }
+          }
+          try {
+            window.user = parsed;
+          } catch (e) {
+            /* ignore */
+          }
+        } catch (e) {
+          /* ignore */
+        }
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

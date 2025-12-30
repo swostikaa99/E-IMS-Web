@@ -1,12 +1,5 @@
 import { motion } from "framer-motion";
-import { 
-  BarChart3, 
-  Box, 
-  Layers, 
-  RefreshCcw, 
-  Shield, 
-  Zap 
-} from "lucide-react";
+import { BarChart3, Box, Layers, RefreshCcw, Shield, Zap } from "lucide-react";
 
 const features = [
   {
